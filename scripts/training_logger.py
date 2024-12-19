@@ -83,24 +83,18 @@ def cross_validate_model(model, X_train, y_train):
     return mean_r2, mean_mse, mean_mae
 
 if __name__ == "__main__":
-    # Define the target variable and input file
-    input_filename = "ml_inputs.csv"  # Replace with your actual input CSV file name
-    target_variable = "QT_VENDA_BRUTO"  # Replace with your target variable
+    input_filename = "ml_inputs.csv"
+    target_variable = "VL_RECEITA_BRUTA"
 
-    # Ensure required directories exist
     os.makedirs(DATA_DIR, exist_ok=True)
     os.makedirs(MODELS_DIR, exist_ok=True)
 
-    # Load and process data
     data = load_data(input_filename)
     X, y = preprocess_data(data, target_variable)
     X_train, X_test, y_train, y_test = split_data(X, y)
 
-    # Train or load model
     model = train_model(X_train, y_train, model_filename="model.pkl", load_model=True)
 
-    # Evaluate the model
     mse, mae, r2 = evaluate_model(model, X_test, y_test)
 
-    # Perform cross-validation
     mean_r2, mean_mse, mean_mae = cross_validate_model(model, X_train, y_train)
