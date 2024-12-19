@@ -1,0 +1,35 @@
+# Ignore Python bytecode
+*.pyc
+__pycache__/
+
+# Ignore data directories
+data/raw/
+data/processed/
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore virtual environment
+venv/
+.env/
+
+# Ignore logs and outputs
+*.log
+outputs/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled notebooks
+*.html
+*.nbconvert/
+
+# Ignore Python dependencies
+*.egg-info/
+build/
+dist/
+
+# Ignore IDE configurations
+.idea/
+.vscode/
