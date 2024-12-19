@@ -3,9 +3,8 @@
 __pycache__/
 
 # Ignore data directories
-data/raw/**
-data/processed/**
-data/model_inputs/**
+data/*
+!data/.gitkeep
 
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
@@ -16,7 +15,8 @@ venv/
 
 # Ignore logs and outputs
 *.log
-outputs/**
+outputs/*
+!outputs/.gitkeep
 
 # Ignore system files
 .DS_Store
@@ -36,7 +36,8 @@ dist/
 .vscode/
 
 # Ignore model files
-models/**
+models/*
+!models/.gitkeep
 
 # Ignore ruff cache
 .ruff_cache/

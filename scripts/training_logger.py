@@ -7,12 +7,25 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import joblib
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-
-# Define paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "../data", "model_inputs")
+DATA_DIR = os.path.join(BASE_DIR, "../data/model_inputs")
 MODELS_DIR = os.path.join(BASE_DIR, "../models")
+OUTPUTS_DIR = os.path.join(BASE_DIR, "../outputs")
+LOG_FILE = os.path.join(OUTPUTS_DIR, "training_logs.txt")
+
+os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(MODELS_DIR, exist_ok=True)
+os.makedirs(OUTPUTS_DIR, exist_ok=True)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_FILE),
+        logging.StreamHandler()  # Opcional: exibe logs no console
+    ]
+)
+logging.info("Logs are being written to the outputs folder.")
 
 def load_data(filename):
     """Load the data from the model_inputs folder."""
@@ -86,9 +99,6 @@ if __name__ == "__main__":
     input_filename = "ml_inputs.csv"
     target_variable = "VL_RECEITA_BRUTA"
 
-    os.makedirs(DATA_DIR, exist_ok=True)
-    os.makedirs(MODELS_DIR, exist_ok=True)
-
     data = load_data(input_filename)
     X, y = preprocess_data(data, target_variable)
     X_train, X_test, y_train, y_test = split_data(X, y)
@@ -96,5 +106,7 @@ if __name__ == "__main__":
     model = train_model(X_train, y_train, model_filename="model.pkl", load_model=True)
 
     mse, mae, r2 = evaluate_model(model, X_test, y_test)
-
     mean_r2, mean_mse, mean_mae = cross_validate_model(model, X_train, y_train)
+
+    logging.info(f"Model evaluation metrics - MSE: {mse}, MAE: {mae}, R2: {r2}")
+    logging.info(f"Cross-validation metrics - Mean MSE: {mean_mse}, Mean MAE: {mean_mae}, Mean R2: {mean_r2}")
